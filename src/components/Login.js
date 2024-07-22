@@ -1,12 +1,77 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Header from './Header'
+import { checkValidData } from '../utils/validate';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from '../utils/firebase';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import {addUser} from "../utils/userSlice";
 
 const Login = () => {
 
     const [isSignInForm, setIsSignInForm] = useState(true);
+    const [errorMessage, setErrorMessage] = useState(null);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    
+    const fullName = useRef(null);
+    const email = useRef(null);
+    const password = useRef(null);
 
     const handleSignUp = ()=>{
         setIsSignInForm(!isSignInForm);
+    }
+
+    const handleButtonClick = ()=>{
+        const msg = checkValidData(fullName.current && fullName.current.value, email.current.value, password.current.value);
+        setErrorMessage(msg);
+        if(msg!==null) return
+
+        if(!isSignInForm)
+        {
+            //Sign Up logic
+            createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
+            .then((userCredential) => {
+                // Signed up 
+                const user = userCredential.user;
+                updateProfile(user, {
+                    displayName: fullName.current.value, photoURL: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF2UzUmH3TeaoGyNFHPI7hNI-c7ppGiYzPyQ&s"
+                  }).then(() => {
+
+                    const {uid, email, displayName, photoURL} = auth.currentUser;
+                    dispatch(addUser({uid: uid, email: email, displayName: displayName, photoURL: photoURL }));
+                    navigate("/browse");
+
+                  }).catch((error) => {
+                    // An error occurred
+                    // ...
+                  });
+                console.log(user);
+                navigate("/browse");
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                setErrorMessage(errorCode+"-"+errorMessage);
+            });
+
+        }
+        else{
+            //Sign In logic
+            signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+            .then((userCredential) => {
+                // Signed in 
+                const user = userCredential.user;
+                console.log(user);
+                navigate("/browse");
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                setErrorMessage(errorCode+"-"+errorMessage);
+            });
+        }
+
     }
 
   return (
@@ -18,12 +83,13 @@ const Login = () => {
             src='https://assets.nflxext.com/ffe/siteui/vlv3/655a9668-b002-4262-8afb-cf71e45d1956/5ff265b6-3037-44b2-b071-e81750b21783/IN-en-20240715-POP_SIGNUP_TWO_WEEKS-perspective_WEB_c6d6616f-4478-4ac2-bdac-f54b444771dd_large.jpg'
             alt='logo'/>
         </div>
-        <form className='absolute p-12 my-40 mx-auto right-0 left-0 w-1/2 md:w-5/12 bg-black rounded-lg bg-opacity-80'>
+        <form onSubmit={(e)=>e.preventDefault()} className='absolute p-12 my-40 mx-auto right-0 left-0 w-1/2 md:w-5/12 bg-black rounded-lg bg-opacity-85'>
 
             <h1 className='py-4 m-2 font-bold text-white text-2xl'>{(isSignInForm)?"Sign In" : "Sign Up"}</h1>
             <div>
                 {(!isSignInForm)?
                     <input 
+                    ref={fullName}
                     type='text' 
                     placeholder='Full Name' 
                     className='p-2 m-2 my-4 w-full bg-gray-600'>
@@ -32,18 +98,22 @@ const Login = () => {
                 }
             </div>
             <input 
+            ref={email}
              type='text' 
              placeholder='Email Address' 
              className='p-2 m-2 my-4 w-full bg-gray-600'>
             </input>
             <input 
+            ref={password}
              type='password' 
              placeholder='Password' 
              className='p-2 m-2 my-4 w-full bg-gray-600'>
             </input>
             
+            <p className='font-bold text-red-500 p-2'>{errorMessage}</p>
+
             <button 
-              className='p-2 mx-2 my-4 text-white bg-red-800 rounded-lg w-full'>
+              className='p-2 mx-2 my-4 text-white bg-red-800 rounded-lg w-full' onClick={handleButtonClick}>
               {(isSignInForm) ? "Sign In" : "Sign Up"}
             </button>
 
