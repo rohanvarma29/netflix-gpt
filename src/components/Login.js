@@ -6,6 +6,7 @@ import { auth } from '../utils/firebase';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {addUser} from "../utils/userSlice";
+import { USER_AVATAR } from '../utils/constants';
 
 const Login = () => {
 
@@ -35,19 +36,18 @@ const Login = () => {
                 // Signed up 
                 const user = userCredential.user;
                 updateProfile(user, {
-                    displayName: fullName.current.value, photoURL: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF2UzUmH3TeaoGyNFHPI7hNI-c7ppGiYzPyQ&s"
+                    displayName: fullName.current.value, photoURL: USER_AVATAR
                   }).then(() => {
 
                     const {uid, email, displayName, photoURL} = auth.currentUser;
                     dispatch(addUser({uid: uid, email: email, displayName: displayName, photoURL: photoURL }));
-                    navigate("/browse");
+                    
 
                   }).catch((error) => {
                     // An error occurred
                     // ...
                   });
-                console.log(user);
-                navigate("/browse");
+                
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -62,8 +62,7 @@ const Login = () => {
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
-                console.log(user);
-                navigate("/browse");
+                
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -83,7 +82,7 @@ const Login = () => {
             src='https://assets.nflxext.com/ffe/siteui/vlv3/655a9668-b002-4262-8afb-cf71e45d1956/5ff265b6-3037-44b2-b071-e81750b21783/IN-en-20240715-POP_SIGNUP_TWO_WEEKS-perspective_WEB_c6d6616f-4478-4ac2-bdac-f54b444771dd_large.jpg'
             alt='logo'/>
         </div>
-        <form onSubmit={(e)=>e.preventDefault()} className='absolute p-12 my-40 mx-auto right-0 left-0 w-1/2 md:w-5/12 bg-black rounded-lg bg-opacity-85'>
+        <form onSubmit={(e)=>e.preventDefault()} className='absolute p-12 my-40 mx-auto right-0 left-0 w-1/2 md:w-4/12 bg-black rounded-lg bg-opacity-85'>
 
             <h1 className='py-4 m-2 font-bold text-white text-2xl'>{(isSignInForm)?"Sign In" : "Sign Up"}</h1>
             <div>
