@@ -91,7 +91,7 @@ const Login = () => {
                     ref={fullName}
                     type='text' 
                     placeholder='Full Name' 
-                    className='p-2 m-2 my-4 w-full bg-gray-600'>
+                    className='p-2 m-2 my-4 w-full bg-gray-600 text-white'>
                    </input>
                    : null
                 }
@@ -100,13 +100,13 @@ const Login = () => {
             ref={email}
              type='text' 
              placeholder='Email Address' 
-             className='p-2 m-2 my-4 w-full bg-gray-600'>
+             className='p-2 m-2 my-4 w-full bg-gray-600 text-white'>
             </input>
             <input 
             ref={password}
              type='password' 
              placeholder='Password' 
-             className='p-2 m-2 my-4 w-full bg-gray-600'>
+             className='p-2 m-2 my-4 w-full bg-gray-600 text-white'>
             </input>
             
             <p className='font-bold text-red-500 p-2'>{errorMessage}</p>

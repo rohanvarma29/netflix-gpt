@@ -3,18 +3,23 @@ import Header from './Header'
 import useNowPlayingMovies from '../hooks/useNowPlayingMovies'
 import MainContainer from './MainContainer'
 import SecondaryContainer from './SecondaryContainer'
+import usePopularMovies from '../hooks/usePopularMovies'
 
 
 const Browse = () => {
 
   // fetches nowPlayingMovies data from TMDB API
-  useNowPlayingMovies()
+  useNowPlayingMovies();
+  
+  usePopularMovies();
 
   return (
     <div>
       <Header/>
       <MainContainer/>
-      <SecondaryContainer/>
+      <div className=''>
+        <SecondaryContainer/>
+      </div>
       {/* 
         MainContainer
           - videoBackgroun
