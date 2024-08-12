@@ -37,6 +37,8 @@
 - GPT Search Page
 - GPT Search Bar
 - (Bonus) Multi-language Feature in our App
+- Used GEMINI APIs
+- GPT Movie Suggestions component
 
 # Features
 
