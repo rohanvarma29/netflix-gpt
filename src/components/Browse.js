@@ -18,7 +18,7 @@ const Browse = () => {
   useTopRatedMovies();
 
   const toggleGptSearch = useSelector((store)=>store.gpt.showGptSearch);
-  console.log(toggleGptSearch);
+  
   return (
     <div>
       <Header/>

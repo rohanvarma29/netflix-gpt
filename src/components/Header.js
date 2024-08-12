@@ -8,7 +8,7 @@ import { onAuthStateChanged } from "firebase/auth";
 
 import {addUser} from "../utils/userSlice";
 import {removeUser} from "../utils/userSlice";
-import { toggleGptSearchView } from '../utils/gptSlice';
+import { removeMovieNamesAndResults, toggleGptSearchView } from '../utils/gptSlice';
 import { LOGO, SUPPORTED_LANGUAGES } from '../utils/constants';
 import { changeLanguage } from '../utils/configSlice';
 
@@ -30,7 +30,7 @@ const Header = () => {
   }
 
   const handleLanguageChange = (e)=>{
-    console.log(e.target.value);
+   
     dispatch(changeLanguage(e.target.value));
   }
 
@@ -52,6 +52,7 @@ const Header = () => {
 
   const handleGptSearchClick = ()=>{
     dispatch(toggleGptSearchView());
+    dispatch(removeMovieNamesAndResults());
   }
 
   return (
