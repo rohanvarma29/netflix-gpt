@@ -78,13 +78,13 @@ const Login = () => {
         <Header/>
         <div className='absolute'>
             <img  
-            className='h-[850px]'
+            className='h-screen object-cover md:h-[850px]'
             src={BG_URL}
             alt='logo'/>
         </div>
-        <form onSubmit={(e)=>e.preventDefault()} className='absolute p-12 my-40 mx-auto right-0 left-0 w-1/2 md:w-4/12 bg-black rounded-lg bg-opacity-85'>
+        <form onSubmit={(e)=>e.preventDefault()} className='absolute p-12 my-40 mx-auto right-0 left-0 w-3/4 md:w-4/12 bg-black rounded-lg bg-opacity-85'>
 
-            <h1 className='py-4 m-2 font-bold text-white text-2xl'>{(isSignInForm)?"Sign In" : "Sign Up"}</h1>
+            <h1 className='py-4 m-2 font-bold text-white text-xl md:text-2xl'>{(isSignInForm)?"Sign In" : "Sign Up"}</h1>
             <div>
                 {(!isSignInForm)?
                     <input 
@@ -97,16 +97,16 @@ const Login = () => {
                 }
             </div>
             <input 
-            ref={email}
-             type='text' 
-             placeholder='Email Address' 
-             className='p-2 m-2 my-4 w-full bg-gray-600 text-white'>
+                ref={email}
+                type='text' 
+                placeholder='Email Address' 
+                className='p-2 m-2 my-4 w-full bg-gray-600 text-white'>
             </input>
             <input 
-            ref={password}
-             type='password' 
-             placeholder='Password' 
-             className='p-2 m-2 my-4 w-full bg-gray-600 text-white'>
+                ref={password}
+                type='password' 
+                placeholder='Password' 
+                className='p-2 m-2 my-4 w-full bg-gray-600 text-white'>
             </input>
             
             <p className='font-bold text-red-500 p-2'>{errorMessage}</p>
@@ -117,7 +117,7 @@ const Login = () => {
             </button>
 
             <div>
-                <p className='p-2 mx-2 my-4 text-white cursor-pointer' onClick={handleSignUp}> {(isSignInForm) ? "New to NetFlix? Sign Up Now" : "Already registered? Sign In"}</p>
+                <p className='p-2 mx-2 my-4 text-sm  text-white cursor-pointer' onClick={handleSignUp}> {(isSignInForm) ? "New to NetFlix? Sign Up Now" : "Already registered? Sign In"}</p>
             </div>
             
             

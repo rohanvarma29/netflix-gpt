@@ -38,7 +38,14 @@
 - GPT Search Bar
 - (Bonus) Multi-language Feature in our App
 - Used GEMINI APIs
+- Search API Call
+- created gptSlice and data
 - GPT Movie Suggestions component
+- reused Movie List component to make movie suggestion container
+- memoization
+- added .env file
+- adding .env file to gitignore
+- Made our site responsive
 
 # Features
 
