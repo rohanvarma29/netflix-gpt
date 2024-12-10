@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {addUser} from "../utils/userSlice";
 import { BG_URL, USER_AVATAR } from '../utils/constants';
+import { jwtDecode } from "jwt-decode";
+import { GoogleLogin } from "@react-oauth/google";
 
 const Login = () => {
 
@@ -119,6 +121,27 @@ const Login = () => {
             <div>
                 <p className='p-2 mx-2 my-4 text-sm  text-white cursor-pointer' onClick={handleSignUp}> {(isSignInForm) ? "New to NetFlix? Sign Up Now" : "Already registered? Sign In"}</p>
             </div>
+
+            <div class="flex items-center justify-between mb-5">
+  <hr class="flex-1 h-px bg-gray-300 mx-4" />
+  <span class="text-lg font-bold mx-4 text-white">or</span>
+  <hr class="flex-1 h-px bg-gray-300 mx-4" />
+</div>
+
+            <GoogleLogin
+              onSuccess={(credentialResponse) => {
+                const credentialResponseDecoded = jwtDecode(
+                  credentialResponse.credential ?? ""
+                );
+                console.log(credentialResponseDecoded);
+
+                dispatch(
+                    addUser({ displayName: (credentialResponseDecoded).given_name, email: (credentialResponseDecoded).email, photoURL: (credentialResponseDecoded).picture, uid: (credentialResponseDecoded).sub })
+                  );
+
+                navigate("/browse");
+              }}
+            />
             
             
         </form>
