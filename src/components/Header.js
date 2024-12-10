@@ -28,6 +28,10 @@ const Header = () => {
     }).catch((error) => {
       navigate("/error");
     });
+
+    dispatch(removeUser());
+    navigate("/");
+
   }
 
   const handleLanguageChange = (e)=>{
@@ -40,6 +44,12 @@ const Header = () => {
   }
 
   useEffect(()=>{
+
+    if(user){
+      navigate("/browse");
+      return;
+    }
+
     const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
             const {uid, email, displayName, photoURL} = user;
@@ -53,6 +63,8 @@ const Header = () => {
 
     //Unsubscribe when component unmounts
     return()=>unsubscribe;
+
+
 },[]);
 
   const handleGptSearchClick = ()=>{
@@ -63,11 +75,14 @@ const Header = () => {
   return (
     <div className="absolute px-8 py-2 bg-gradient-to-b from-black z-10 w-full h-[80px] flex flex-col md:flex-row  md:justify-between">
         <div className='flex justify-between'>
+          <div className='flex items-center'>
           <img  
-            className="w-[180px] md:mx-0"
+            className="w-[140px] md:mx-0"
             src= {LOGO}
             alt='logo'
           />
+          <span className='left-0 text-xs md:text-3xl text-red-600 font-bold'>-  GPT</span>
+          </div>
           <div className='my-auto' onClick={handleMenuToggle}>
             <div className='w-6 bg-white h-1 m-1 md:hidden'></div>
             <div className='w-6 bg-white h-1 m-1 md:hidden'></div>
